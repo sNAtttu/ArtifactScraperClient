@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import { FormSubmitButton } from "../Styled/PostDeckForm";
+import { DraftType } from "../Types/Draft";
 import DataService from "../Utilities/DataService";
-
-type DraftType = "Casual" | "Phantom" | "Keeper";
-
+import FormInput from "./FormInput";
 export default class DraftForm extends Component<
   {},
   {
@@ -13,7 +13,7 @@ export default class DraftForm extends Component<
     draftType: DraftType;
   }
 > {
-  constructor(props: any) {
+  constructor(props: React.Props<any>) {
     super(props);
     this.state = {
       author: "sNAttu",
@@ -72,52 +72,37 @@ export default class DraftForm extends Component<
   public render() {
     return (
       <form onSubmit={this.submitForm}>
-        <label>
-          Author:
-          <input
-            type="text"
-            value={this.state.author}
-            onChange={this.handleAuthorChange}
-          />
-        </label>
-        <br />
-        <label>
-          Wins:
-          <input
-            type="number"
-            value={this.state.winAmount}
-            onChange={this.handleWinAmountChange}
-          />
-        </label>
-        <br />
-        <label>
-          Loses:
-          <input
-            type="number"
-            value={this.state.loseAmount}
-            onChange={this.handleLoseAmountChange}
-          />
-        </label>
-        <br />
-        <label>
-          Draft Type:
-          <input
-            type="text"
-            value={this.state.draftType}
-            onChange={this.handleDraftTypeChange}
-          />
-        </label>
-        <br />
-        <label>
-          Deck code:
-          <input
-            type="text"
-            value={this.state.deckCode}
-            onChange={this.handleDeckCodeChange}
-          />
-        </label>
-        <br />
-        <input type="submit" value="Submit" />
+        <FormInput
+          labelText={"Author"}
+          inputType={"text"}
+          value={this.state.author}
+          handleValueChange={this.handleAuthorChange}
+        />
+        <FormInput
+          labelText={"Wins"}
+          inputType={"number"}
+          value={this.state.winAmount}
+          handleValueChange={this.handleWinAmountChange}
+        />
+        <FormInput
+          labelText={"Loses"}
+          inputType={"number"}
+          value={this.state.loseAmount}
+          handleValueChange={this.handleLoseAmountChange}
+        />
+        <FormInput
+          labelText={"Draft Type"}
+          inputType={"text"}
+          value={this.state.draftType}
+          handleValueChange={this.handleDraftTypeChange}
+        />
+        <FormInput
+          labelText={"Deck Code"}
+          inputType={"text"}
+          value={this.state.deckCode}
+          handleValueChange={this.handleDeckCodeChange}
+        />
+        <FormSubmitButton type="submit" value="Submit" />
       </form>
     );
   }
