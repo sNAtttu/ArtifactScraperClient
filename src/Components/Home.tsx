@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { IDeck } from "../Types/Deck";
 import DataService from "../Utilities/DataService";
+import Deck from "./Deck";
 export default class Home extends Component<{}, { decks: IDeck[] }> {
   constructor(props: any) {
     super(props);
@@ -12,14 +13,9 @@ export default class Home extends Component<{}, { decks: IDeck[] }> {
     );
   }
   public render() {
-    const cardElements = this.state.decks.map(cardObj => {
-      return (
-        <div key={cardObj.deckCode}>
-          <p>Wins: {cardObj.wins}</p>
-          <p>Loses: {cardObj.loses}</p>
-        </div>
-      );
+    const deckElements = this.state.decks.map(deckObj => {
+      return <Deck key={deckObj.deckCode} deck={deckObj} />;
     });
-    return <div>{cardElements}</div>;
+    return <div>{deckElements}</div>;
   }
 }
