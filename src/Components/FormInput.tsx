@@ -5,10 +5,6 @@ import {
   FormLabel
 } from "../Styled/PostDeckForm";
 import { DraftType } from "../Types/Draft";
-interface IFormInputProps {
-  labelText: string;
-  handleValueChange: (event: any) => void;
-}
 
 const FormInput = ({
   labelText,
