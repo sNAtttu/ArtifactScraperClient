@@ -1,23 +1,20 @@
 import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import DraftForm from "./Components/DraftForm";
-import logo from "./logo.svg";
+import Home from "./Components/Home";
 import DataService from "./Utilities/DataService";
-
 class App extends Component {
-  public cards = [];
-  public componentDidMount() {
-    DataService.getDraftDecks().then(fetchedCards =>
-      this.setState((this.cards = fetchedCards))
-    );
-  }
-
   public render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <DraftForm />
-        </header>
+        <header />
+        <div className="AppBody">
+          <Switch>
+            <Route exact={true} path="/" component={Home} />
+            <Route path="/deck/post" component={DraftForm} />
+          </Switch>
+        </div>
       </div>
     );
   }
