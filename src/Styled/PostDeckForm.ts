@@ -5,7 +5,7 @@ const FormInputContainer = styled.div`
 `;
 
 const FormLabel = styled.label`
-  font-size: 1.5em;
+  font-size: 1.2em;
   text-align: left;
 `;
 
