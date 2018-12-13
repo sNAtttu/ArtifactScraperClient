@@ -5,7 +5,7 @@ import {
   SummaryHeaderTitle,
   SummaryValue
 } from "../Styled/Home";
-import { ICard, IDeck } from "../Types/Deck";
+import { ICard, IDeck, IHero } from "../Types/Deck";
 import DataService from "../Utilities/DataService";
 import Statistics from "../Utilities/Statistics";
 import Deck from "./Deck";
@@ -16,6 +16,7 @@ export default class Home extends Component<
     mostPlayedCard: ICard;
     isLoading: boolean;
     mostPlayedColor: Color;
+    mostPlayedHero: IHero;
   }
 > {
   constructor(props: any) {
@@ -31,7 +32,12 @@ export default class Home extends Component<
         isSignatureCard: false,
         type: "Creep"
       },
-      mostPlayedColor: "Black"
+      mostPlayedColor: "Black",
+      mostPlayedHero: {
+        color: "Black",
+        name: "",
+        signatureCard: ""
+      }
     };
   }
   public componentDidMount() {
@@ -40,7 +46,8 @@ export default class Home extends Component<
         decks: fetchedDecks,
         isLoading: false,
         mostPlayedCard: Statistics.getMostPickedCard(fetchedDecks),
-        mostPlayedColor: Statistics.getMostPlayedColor(fetchedDecks)
+        mostPlayedColor: Statistics.getMostPlayedColor(fetchedDecks),
+        mostPlayedHero: Statistics.getMostPlayedHero(fetchedDecks)
       });
     });
   }
@@ -57,6 +64,7 @@ export default class Home extends Component<
           <SummaryHeaderTitle>Most Played Combination</SummaryHeaderTitle>
           <SummaryValue>{this.state.mostPlayedCard.cardName}</SummaryValue>
           <SummaryValue>{this.state.mostPlayedCard.color}</SummaryValue>
+          <SummaryValue>{this.state.mostPlayedHero.name}</SummaryValue>
         </SummaryGridContainer>
       );
     }

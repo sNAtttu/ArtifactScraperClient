@@ -1,5 +1,38 @@
-import { Color, ICard, IDeck } from "../Types/Deck";
+import { Color, ICard, IDeck, IHero } from "../Types/Deck";
+interface IHeroAmount {
+  name: string;
+  count: number;
+}
 export default class Statistics {
+  public static getMostPlayedHero(decks: IDeck[]): IHero {
+    const allHeroesFromDecks: IHero[] = [];
+    decks.forEach(deck => allHeroesFromDecks.push(...deck.heroes));
+    console.log(allHeroesFromDecks);
+    const heroAmounts: IHeroAmount[] = [];
+    allHeroesFromDecks.forEach(hero => {
+      const heroIndex = heroAmounts.findIndex(
+        heroAmount => heroAmount.name === hero.name
+      );
+      if (heroIndex < 0) {
+        heroAmounts.push({ name: hero.name, count: 1 });
+      } else {
+        heroAmounts[heroIndex].count += 1;
+      }
+    });
+
+    const maxHeroIndex = heroAmounts.findIndex(heroAmount => {
+      const maxCount = Math.max.apply(Math, heroAmounts.map(ha => ha.count));
+      return maxCount === heroAmount.count;
+    });
+
+    const matchingHero = allHeroesFromDecks.find(
+      hero => hero.name === heroAmounts[maxHeroIndex].name
+    );
+    if (!matchingHero) {
+      throw ErrorEvent;
+    }
+    return matchingHero;
+  }
   public static getMostPlayedColor(decks: IDeck[]): Color {
     const cards = this.flattenDecksToCardArray(decks);
     const cardsByColor = [
