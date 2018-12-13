@@ -11,6 +11,7 @@ export default class DraftForm extends Component<
     loseAmount: number;
     deckCode: string;
     draftType: DraftType;
+    isLoading: boolean;
   }
 > {
   constructor(props: React.Props<any>) {
@@ -19,6 +20,7 @@ export default class DraftForm extends Component<
       author: "sNAttu",
       deckCode: "",
       draftType: "Casual",
+      isLoading: false,
       loseAmount: 2,
       winAmount: 0
     };
@@ -41,7 +43,11 @@ export default class DraftForm extends Component<
       loseAmount,
       winAmount
     };
-    DataService.postDraftDeck(draftData);
+    this.setState({ isLoading: true });
+    DataService.postDraftDeck(draftData).then(res => {
+      console.log(res);
+      this.setState({ isLoading: false });
+    });
   }
 
   public handleAuthorChange(event: any) {
@@ -102,7 +108,11 @@ export default class DraftForm extends Component<
           value={this.state.deckCode}
           handleValueChange={this.handleDeckCodeChange}
         />
-        <FormSubmitButton type="submit" value="Submit" />
+        <FormSubmitButton
+          type="submit"
+          value="Submit"
+          disabled={this.state.isLoading}
+        />
       </form>
     );
   }
