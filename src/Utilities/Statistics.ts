@@ -7,7 +7,6 @@ export default class Statistics {
   public static getMostPlayedHero(decks: IDeck[]): IHero {
     const allHeroesFromDecks: IHero[] = [];
     decks.forEach(deck => allHeroesFromDecks.push(...deck.heroes));
-    console.log(allHeroesFromDecks);
     const heroAmounts: IHeroAmount[] = [];
     allHeroesFromDecks.forEach(hero => {
       const heroIndex = heroAmounts.findIndex(
