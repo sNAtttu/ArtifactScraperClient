@@ -1,21 +1,65 @@
+import { Color } from "csstype";
 import React, { Component } from "react";
-import { IDeck } from "../Types/Deck";
+import {
+  SummaryGridContainer,
+  SummaryHeaderTitle,
+  SummaryValue
+} from "../Styled/Home";
+import { ICard, IDeck } from "../Types/Deck";
 import DataService from "../Utilities/DataService";
+import Statistics from "../Utilities/Statistics";
 import Deck from "./Deck";
-export default class Home extends Component<{}, { decks: IDeck[] }> {
+export default class Home extends Component<
+  {},
+  {
+    decks: IDeck[];
+    mostPlayedCard: ICard;
+    isLoading: boolean;
+    mostPlayedColor: Color;
+  }
+> {
   constructor(props: any) {
     super(props);
-    this.state = { decks: [] };
+    this.state = {
+      decks: [],
+      isLoading: true,
+      mostPlayedCard: {
+        cardAmountInDeck: 0,
+        cardName: "",
+        color: "Black",
+        cost: 0,
+        isSignatureCard: false,
+        type: "Creep"
+      },
+      mostPlayedColor: "Black"
+    };
   }
   public componentDidMount() {
-    DataService.getDraftDecks().then(fetchedDecks =>
-      this.setState({ decks: fetchedDecks })
-    );
+    DataService.getDraftDecks().then(fetchedDecks => {
+      this.setState({
+        decks: fetchedDecks,
+        isLoading: false,
+        mostPlayedCard: Statistics.getMostPickedCard(fetchedDecks),
+        mostPlayedColor: Statistics.getMostPlayedColor(fetchedDecks)
+      });
+    });
   }
   public render() {
-    const deckElements = this.state.decks.map(deckObj => {
-      return <Deck key={deckObj.deckCode} deck={deckObj} />;
-    });
-    return <div>{deckElements}</div>;
+    let renderElement;
+    if (this.state.isLoading) {
+      renderElement = <div>Lataa</div>;
+    } else {
+      renderElement = (
+        <SummaryGridContainer>
+          <SummaryHeaderTitle>Most Played Card</SummaryHeaderTitle>
+          <SummaryHeaderTitle>Most Played Color</SummaryHeaderTitle>
+          <SummaryHeaderTitle>Most Played Hero</SummaryHeaderTitle>
+          <SummaryHeaderTitle>Most Played Combination</SummaryHeaderTitle>
+          <SummaryValue>{this.state.mostPlayedCard.cardName}</SummaryValue>
+          <SummaryValue>{this.state.mostPlayedCard.color}</SummaryValue>
+        </SummaryGridContainer>
+      );
+    }
+    return renderElement;
   }
 }
